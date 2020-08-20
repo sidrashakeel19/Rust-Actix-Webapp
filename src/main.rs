@@ -1,3 +1,4 @@
+// Necessary imports here
 use actix_web::{App, get, post, put, delete, HttpResponse, HttpServer};
 
 #[actix_rt::main]
@@ -18,6 +19,31 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await
 }
+
+// -------------------------- Models -----------------------------
+
+// This struct will be used for taking input from user's request
+
+struct Student {
+    first_name: String,
+    last_name: String,
+    department: String,
+    is_graduated: bool,
+    age: i32,
+}
+
+// This struct will be used for retrieval from data sources 
+struct Students {
+    id: i32,
+    first_name: String,
+    last_name: String,
+    department: String,
+    is_graduated: bool,
+    age: i32,
+}
+
+// ------------------------ End Models ---------------------------
+
 // ----------------------- Route Handlers------------------------
 
 #[get("/")]
@@ -55,4 +81,6 @@ async fn delete() -> HttpResponse {
     HttpResponse::Ok().body("Deleting record")
 }
 
+
+// ---------------------- End Route-Handlers ----------------------
 
