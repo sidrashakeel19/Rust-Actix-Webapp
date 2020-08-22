@@ -20,7 +20,6 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
         // Associating service(s)/route_handler(s)
-        .service(index)
         .service(find_all)
         .service(find)
         .service(create) 
@@ -159,39 +158,51 @@ pub fn get_id() -> i32 {
 
 // ----------------------- Route Handlers------------------------
 
-#[get("/")]
-async fn index() -> HttpResponse {
-    HttpResponse::Ok().body("Hey! Welcome to the Actix REST API")
-}
-
 // This route handler will list all the data
 #[get("/students")]
 async fn find_all() -> HttpResponse {
-    HttpResponse::Ok().body("List of all students")
+    let students = Students::find_all();
+    HttpResponse::Ok().body(format!("List of all students : {:?}", students))
 }
 
 // This route handler will list data with specific id
 #[get("/students/{id}")]
 async fn find() -> HttpResponse {
-    HttpResponse::Ok().body("Listing student with specific id")
+    let student = Students::find(3);
+    HttpResponse::Ok().body(format!("Fetched Record : {:?}",student))
 }
 
 // This route handler will create a new record
 #[post("/students")]
 async fn create() -> HttpResponse {
-    HttpResponse::Ok().body("Creating a new record")
+    let student = Students::create(Student{
+        first_name:"raza".to_string(), 
+        last_name:"raza".to_string(),
+        department :"Comp".to_string(), 
+        is_graduated : false, 
+        age : 26
+    });
+    HttpResponse::Ok().body(format!("Created record : {:?}",student)
 }
 
 // This route handler will update an existing record
 #[put("/students/{id}")]
 async fn update() -> HttpResponse {
-    HttpResponse::Ok().body("Updating record")
+    let student = Students::update(2, Student {
+        first_name:"Haris".to_string(), 
+        last_name:"raza".to_string(),
+        department :"BUSINESS".to_string(), 
+        is_graduated : false, 
+        age : 26
+    });
+    HttpResponse::Ok().body(format!("Updated record : {:?}",student))
 }
 
 // This route handler will delete a specific record
 #[delete("/students/{id}")]
 async fn delete() -> HttpResponse {
-    HttpResponse::Ok().body("Deleting record")
+    let student = Students::delete(2);
+    HttpResponse::Ok().body(format!("Deleted record : {:?}",student))
 }
 
 // ---------------------- End Route-Handlers ----------------------
