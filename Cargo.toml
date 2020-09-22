@@ -10,9 +10,8 @@ edition = "2018"
 actix-web = "2.0"
 actix-rt = "1.0"
 
-#state is used for Storage struct
-state = { version = "0.4", features = ["const_fn"] }
-
 serde = "1.0"
 # For diesel
 diesel = { version = "1.4.4", features = ["postgres"] }
+diesel_migrations = "1.4"
+dotenv = "0.11"
